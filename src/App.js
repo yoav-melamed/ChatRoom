@@ -26,12 +26,7 @@ const App = () => {
       setMessages([...messages, messageObject]);
       myRef.current.scrollTop = myRef.current.clientHeight;
     });
-  }, [messages]);
-
-  const handleCreateMessage = message => {
-    message.user = username;
-    socket.emit('SEND_MESSAGE', message);
-  };
+  }, [messages, username]);
 
   const handleChangeMessageContent = e => {
     setMessageContent(e.target.value);
@@ -42,10 +37,11 @@ const App = () => {
 
     const message = {
       content: messageContent,
+      user: username,
     };
 
     setMessageContent('');
-    handleCreateMessage(message);
+    socket.emit('SEND_MESSAGE', message);
   };
 
   return (
